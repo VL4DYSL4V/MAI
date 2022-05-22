@@ -2,6 +2,7 @@ package main;
 
 import consistency.ConsistencyOptimizer;
 import consistency.LinearConsistencyOptimizer;
+import enums.MeanConsistency;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
@@ -15,11 +16,11 @@ public class Main {
 
     public static void main(String[] args) {
         RealMatrix matrix = new Array2DRowRealMatrix(new double[][]{
-                {1, 1.0 / 5, 1.0 / 7, 1.0 / 3, 1.0 / 4},
-                {5, 1, 1.0 / 3, 8, 1.0 / 6},
-                {7, 3, 1, 5, 2},
-                {3, 1.0 / 8, 1.0 / 5, 1, 1.0 / 7},
-                {4, 6, 1.0 / 2, 7, 1},
+                {1, 1.0 / 9, 1.0 / 9, 1.0 / 6, 1.0 / 3},
+                {9, 1, 1.0, 6, 3},
+                {9, 1.0, 1, 6, 3},
+                {6, 1.0 / 6, 1.0 / 6, 1, 4},
+                {3, 1.0 / 3, 1.0 / 3, 0.25, 1},
         });
         ConsistencyOptimizer optimizer = new LinearConsistencyOptimizer(0.5);
         RealMatrix optimized = optimizer.optimizeConsistency(matrix);
@@ -27,8 +28,6 @@ public class Main {
         System.out.println("Optimized matrix:");
         printMatrixPretty(optimized, 3);
         System.out.println("");
-
-        System.out.printf("Lambda max: %.4f%n%n", ConsistencyUtils.getMaxEigenValue(optimized));
 
         RealVector eigenVector = ConsistencyUtils.computeEigenVector(optimized);
         System.out.print("Eigen vector: ");
@@ -39,6 +38,12 @@ public class Main {
         System.out.print("Local optima vector: ");
         printVectorPretty(localOptimaVector, 3);
         System.out.println("");
+
+        double maxEigenValue = ConsistencyUtils.getMaxEigenValue(optimized);
+        double consistencyIndex = ConsistencyUtils.getConsistencyIndex(maxEigenValue, matrix.getRowDimension());
+        System.out.printf("Lambda max: %.4f%n%n", maxEigenValue);
+        System.out.printf("Consistency index: %.4f%n%n", consistencyIndex);
+        System.out.printf("Mean consistency: %.4f%n%n", MeanConsistency.getCoefficientByMatrixDimension(matrix.getRowDimension()));
 
         double relativeConsistency = ConsistencyUtils.getRelativeConsistency(optimized);
         System.out.printf("Relative consistency: %.04f%n", relativeConsistency);
