@@ -8,6 +8,8 @@ import org.apache.commons.math3.linear.RealVector;
 import util.ConsistencyUtils;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -21,14 +23,40 @@ public class Main {
         });
         ConsistencyOptimizer optimizer = new LinearConsistencyOptimizer(0.5);
         RealMatrix optimized = optimizer.optimizeConsistency(matrix);
-        for (double[] row: optimized.getData()) {
-            System.out.println(Arrays.toString(row));
-        }
+        printMatrixPretty(optimized, 3);
         System.out.println("");
+
+        RealVector eigenVector = ConsistencyUtils.computeEigenVector(optimized);
+        System.out.print("Eigen vector: ");
+        printVectorPretty(eigenVector, 3);
+        System.out.println("");
+
+        RealVector localOptimaVector = ConsistencyUtils.computeLocalOptimaVector(eigenVector);
+        System.out.print("Local optima vector: ");
+        printVectorPretty(localOptimaVector, 3);
+        System.out.println("");
+
         double relativeConsistency = ConsistencyUtils.getRelativeConsistency(optimized);
-        System.out.println(relativeConsistency);
+        System.out.printf("Relative consistency: %.04f%n", relativeConsistency);
     }
 
+    private static void printMatrixPretty(RealMatrix matrix, int precision) {
+        String template = String.format("%%.%df", precision);
+        for (double[] row : matrix.getData()) {
+            List<String> formatted = Arrays.stream(row)
+                    .mapToObj(d -> String.format(template, d))
+                    .collect(Collectors.toList());
+            System.out.println(formatted);
+        }
+        ;
+    }
 
+    private static void printVectorPretty(RealVector vector, int precision) {
+        String template = String.format("%%.%df", precision);
+        List<String> formatted = Arrays.stream(vector.toArray())
+                .mapToObj(d -> String.format(template, d))
+                .collect(Collectors.toList());
+        System.out.println(formatted);
+    }
 
 }

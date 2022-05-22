@@ -6,8 +6,6 @@ import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
 import util.ConsistencyUtils;
 
-import java.util.Arrays;
-
 @RequiredArgsConstructor
 public class LinearConsistencyOptimizer implements ConsistencyOptimizer {
 

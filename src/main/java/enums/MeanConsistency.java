@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequiredArgsConstructor
 public enum MeanConsistency {
 
-    MEAN_CONSISTENCY(new ConcurrentHashMap<>(){{
+    MEAN_CONSISTENCY(new ConcurrentHashMap<>() {{
         put(1, 0.0);
         put(2, 0.0);
         put(3, 0.58);
