@@ -28,6 +28,8 @@ public class Main {
         printMatrixPretty(optimized, 3);
         System.out.println("");
 
+        System.out.printf("Lambda max: %.4f%n%n", ConsistencyUtils.getMaxEigenValue(optimized));
+
         RealVector eigenVector = ConsistencyUtils.computeEigenVector(optimized);
         System.out.print("Eigen vector: ");
         printVectorPretty(eigenVector, 3);
