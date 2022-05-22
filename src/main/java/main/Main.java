@@ -23,6 +23,8 @@ public class Main {
         });
         ConsistencyOptimizer optimizer = new LinearConsistencyOptimizer(0.5);
         RealMatrix optimized = optimizer.optimizeConsistency(matrix);
+        System.out.println("==============================================================");
+        System.out.println("Optimized matrix:");
         printMatrixPretty(optimized, 3);
         System.out.println("");
 
@@ -38,6 +40,7 @@ public class Main {
 
         double relativeConsistency = ConsistencyUtils.getRelativeConsistency(optimized);
         System.out.printf("Relative consistency: %.04f%n", relativeConsistency);
+        System.out.println("==============================================================");
     }
 
     private static void printMatrixPretty(RealMatrix matrix, int precision) {
