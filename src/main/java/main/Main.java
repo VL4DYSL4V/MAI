@@ -1,8 +1,13 @@
 package main;
 
+import consistency.ConsistencyOptimizer;
+import consistency.LinearConsistencyOptimizer;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealVector;
 import util.ConsistencyUtils;
+
+import java.util.Arrays;
 
 public class Main {
 
@@ -14,7 +19,16 @@ public class Main {
                 {3, 1.0 / 8, 1.0 / 5, 1, 1.0 / 7},
                 {4, 6, 1.0 / 2, 7, 1},
         });
-        System.out.println(ConsistencyUtils.getMaxEigenValue(matrix));
+        ConsistencyOptimizer optimizer = new LinearConsistencyOptimizer(0.5);
+        RealMatrix optimized = optimizer.optimizeConsistency(matrix);
+        for (double[] row: optimized.getData()) {
+            System.out.println(Arrays.toString(row));
+        }
+        System.out.println("");
+        double relativeConsistency = ConsistencyUtils.getRelativeConsistency(optimized);
+        System.out.println(relativeConsistency);
     }
+
+
 
 }

@@ -1,5 +1,6 @@
 package util;
 
+import enums.MeanConsistency;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.EigenDecomposition;
 import org.apache.commons.math3.linear.RealMatrix;
@@ -57,5 +58,15 @@ public class ConsistencyUtils {
         EigenDecomposition eigenDecomposition = new EigenDecomposition(realMatrix);
         double[] realEigenValues = eigenDecomposition.getRealEigenvalues();
         return getMaxValue(realEigenValues);
+    }
+
+    public static double getConsistencyIndex(double maxEigenValue, int matrixDimension) {
+        return (maxEigenValue - matrixDimension) / (matrixDimension - 1);
+    }
+
+    public static double getRelativeConsistency(RealMatrix realMatrix) {
+        double maxEigenValue = getMaxEigenValue(realMatrix);
+        double consistencyIndex = getConsistencyIndex(maxEigenValue, realMatrix.getRowDimension());
+        return consistencyIndex / MeanConsistency.getCoefficientByMatrixDimension(realMatrix.getRowDimension());
     }
 }
