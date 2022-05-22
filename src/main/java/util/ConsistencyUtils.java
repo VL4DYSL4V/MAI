@@ -1,13 +1,15 @@
 package util;
 
 import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.linear.EigenDecomposition;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.util.FastMath;
 
 public class ConsistencyUtils {
 
-    private ConsistencyUtils(){}
+    private ConsistencyUtils() {
+    }
 
     public static void checkIfMatrixIsSquare(RealMatrix matrix) {
         if (!matrix.isSquare()) {
@@ -17,7 +19,7 @@ public class ConsistencyUtils {
 
     public static RealVector computeEigenVector(RealMatrix realMatrix) {
         checkIfMatrixIsSquare(realMatrix);
-        double [] vector = new double[realMatrix.getRowDimension()];
+        double[] vector = new double[realMatrix.getRowDimension()];
         for (int i = 0; i < realMatrix.getRowDimension(); i++) {
             double result = 1;
             double[] row = realMatrix.getRow(i);
@@ -38,4 +40,22 @@ public class ConsistencyUtils {
         return eigenVector.map(a_i -> a_i / finalSum);
     }
 
+    private static double getMaxValue(double[] eigenValues) {
+        if (eigenValues.length == 0) {
+            throw new RuntimeException("No real eigen values!");
+        }
+        double currentMax = eigenValues[0];
+        for (double value : eigenValues) {
+            if (value >= currentMax) {
+                currentMax = value;
+            }
+        }
+        return currentMax;
+    }
+
+    public static double getMaxEigenValue(RealMatrix realMatrix) {
+        EigenDecomposition eigenDecomposition = new EigenDecomposition(realMatrix);
+        double[] realEigenValues = eigenDecomposition.getRealEigenvalues();
+        return getMaxValue(realEigenValues);
+    }
 }

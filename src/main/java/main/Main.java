@@ -2,7 +2,6 @@ package main;
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.linear.RealVector;
 import util.ConsistencyUtils;
 
 public class Main {
@@ -15,10 +14,7 @@ public class Main {
                 {3, 1.0 / 8, 1.0 / 5, 1, 1.0 / 7},
                 {4, 6, 1.0 / 2, 7, 1},
         });
-        RealVector eigenVector = ConsistencyUtils.computeEigenVector(matrix);
-        System.out.println(eigenVector);
-        RealVector optimaVector = ConsistencyUtils.computeLocalOptimaVector(eigenVector);
-        System.out.println(optimaVector);
+        System.out.println(ConsistencyUtils.getMaxEigenValue(matrix));
     }
 
 }
