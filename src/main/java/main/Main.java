@@ -16,14 +16,14 @@ public class Main {
 
     public static void main(String[] args) {
         RealMatrix matrix = new Array2DRowRealMatrix(new double[][]{
-                {1, 1.0 / 9, 1.0 / 9, 1.0 / 6, 1.0 / 3},
-                {9, 1, 1.0, 6, 3},
-                {9, 1.0, 1, 6, 3},
-                {6, 1.0 / 6, 1.0 / 6, 1, 4},
-                {3, 1.0 / 3, 1.0 / 3, 0.25, 1},
+                {1, 1.0 / 6, 2, 1.0 / 3},
+                {6, 1, 2, 1.0 / 6},
+                {0.5, 0.5, 1, 3},
+                {3, 6, 1.0 / 3, 1}
         });
         ConsistencyOptimizer optimizer = new LinearConsistencyOptimizer(0.5);
         RealMatrix optimized = optimizer.optimizeConsistency(matrix);
+
         System.out.println("==============================================================");
         System.out.println("Optimized matrix:");
         printMatrixPretty(optimized, 3);
